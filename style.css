@@ -1,0 +1,556 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: #100519;
+    color: white;
+    font-family: "Cormorant Garamond", serif;
+    overflow: hidden;
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+#intro {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #a477d2 0%,
+            #653a91 35%,
+            #32164f 65%,
+            #100519 100%
+        );
+
+    transition: opacity 1.5s ease;
+}
+
+.intro-content {
+    padding: 30px;
+
+    animation: introAppear 2s ease;
+}
+
+.small-text {
+    font-size: 14px;
+
+    letter-spacing: 7px;
+
+    margin-bottom: 20px;
+
+    opacity: 0.85;
+}
+
+.intro-content h1 {
+    font-family: "Great Vibes", cursive;
+
+    font-size: clamp(
+        100px,
+        18vw,
+        220px
+    );
+
+    font-weight: 400;
+
+    line-height: 0.8;
+
+    text-shadow:
+        0 0 20px white,
+        0 0 50px #d8b6ff;
+}
+
+.line {
+    width: 120px;
+
+    height: 1px;
+
+    background: white;
+
+    margin: 35px auto;
+}
+
+.intro-content h2 {
+    font-size: 35px;
+
+    font-weight: 500;
+}
+
+.intro-message {
+    font-size: 20px;
+
+    margin-top: 20px;
+
+    letter-spacing: 2px;
+}
+
+
+/* BUTTON */
+
+button {
+    font-family: inherit;
+
+    cursor: pointer;
+}
+
+#startBtn,
+#replayBtn {
+
+    margin-top: 35px;
+
+    padding: 14px 35px;
+
+    border-radius: 50px;
+
+    color: white;
+
+    background: rgba(255,255,255,0.12);
+
+    border: 1px solid rgba(255,255,255,0.6);
+
+    font-size: 18px;
+
+    backdrop-filter: blur(10px);
+
+    transition: 0.4s;
+}
+
+#startBtn:hover,
+#replayBtn:hover {
+
+    background: white;
+
+    color: #542b87;
+
+    transform: scale(1.08);
+}
+
+
+/* =========================
+   AVP
+========================= */
+
+.hidden {
+    display: none;
+}
+
+.slideshow {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 100vh;
+    height: 100dvh;
+
+    overflow: hidden;
+}
+
+
+/* PHOTO */
+
+.photo-container {
+
+    position: absolute;
+
+    inset: 0;
+
+    background: #12061d;
+    overflow: hidden;
+}
+
+.photo-container::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -20px;
+
+    background-image: var(--photo-background);
+    background-position: center;
+    background-size: cover;
+
+    filter: blur(18px) brightness(0.55);
+}
+
+#currentPhoto {
+
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+
+    position: relative;
+    z-index: 1;
+
+    opacity: 0;
+
+    transition: opacity 1.5s ease;
+}
+
+#currentPhoto.show {
+
+    opacity: 1;
+}
+
+
+/* DARK OVERLAY */
+
+.dark-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(15, 3, 25, 0.15),
+            rgba(15, 3, 25, 0.75)
+        );
+
+    z-index: 2;
+}
+
+
+/* CAPTION */
+
+.caption {
+
+    position: absolute;
+
+    z-index: 5;
+
+    left: 8%;
+
+    bottom: 12%;
+
+    max-width: 700px;
+
+    text-align: left;
+
+    animation: captionIn 1.2s ease;
+}
+
+.caption p:first-child {
+
+    font-size: 16px;
+
+    letter-spacing: 6px;
+
+    margin-bottom: 15px;
+}
+
+.caption h1 {
+
+    font-family: "Great Vibes", cursive;
+
+    font-size: clamp(
+        55px,
+        8vw,
+        110px
+    );
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    text-shadow:
+        0 3px 20px rgba(0,0,0,0.7);
+}
+
+#description {
+
+    font-size: 22px;
+
+    margin-top: 20px;
+
+    line-height: 1.4;
+
+    text-shadow:
+        0 2px 10px black;
+}
+
+
+/* PROGRESS */
+
+.progress {
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 100%;
+
+    height: 4px;
+
+    background: rgba(255,255,255,0.2);
+
+    z-index: 10;
+}
+
+#progressBar {
+
+    width: 0%;
+
+    height: 100%;
+
+    background: white;
+
+    transition: width linear;
+}
+
+
+/* MUSIC */
+
+.music-btn {
+
+    position: absolute;
+
+    z-index: 20;
+
+    right: 30px;
+
+    top: 30px;
+
+    width: 55px;
+
+    height: 55px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.15);
+
+    color: white;
+
+    border: 1px solid rgba(255,255,255,0.5);
+
+    font-size: 22px;
+
+    backdrop-filter: blur(10px);
+
+    transition: 0.3s;
+}
+
+.music-btn:hover {
+
+    transform: scale(1.1);
+
+    background: white;
+
+    color: #542b87;
+}
+
+.music-btn:focus-visible {
+
+    outline: 2px solid white;
+    outline-offset: 4px;
+}
+
+
+/* =========================
+   FINAL SCREEN
+========================= */
+
+.final-screen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 50;
+
+    display: none;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle,
+            #a579c9,
+            #5c347e 35%,
+            #21102f 75%,
+            #0c0411
+        );
+}
+
+.final-screen.show {
+
+    display: flex;
+
+    animation: fadeIn 2s ease;
+}
+
+.final-content {
+
+    padding: 30px;
+
+    max-width: 900px;
+}
+
+.final-content h1 {
+
+    font-family: "Great Vibes", cursive;
+
+    font-size: clamp(
+        180px,
+        30vw,
+        400px
+    );
+
+    font-weight: 400;
+
+    line-height: 0.7;
+
+    text-shadow:
+        0 0 25px white,
+        0 0 70px #d7adff;
+}
+
+.final-content h2 {
+
+    font-size: 45px;
+
+    margin-top: 40px;
+}
+
+.final-content h3 {
+
+    font-size: 35px;
+
+    margin-bottom: 20px;
+}
+
+.final-content p {
+
+    font-size: 21px;
+
+    line-height: 1.5;
+}
+
+.final-content strong {
+
+    display: block;
+
+    margin-top: 25px;
+
+    font-size: 30px;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes introAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes captionIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .caption {
+
+        left: 7%;
+
+        right: 7%;
+
+        bottom: 12%;
+    }
+
+    .caption h1 {
+
+        font-size: 60px;
+    }
+
+    #description {
+
+        font-size: 18px;
+    }
+
+    .intro-content h2 {
+
+        font-size: 27px;
+    }
+
+    .final-content h2 {
+
+        font-size: 32px;
+    }
+
+    .final-content h3 {
+
+        font-size: 27px;
+    }
+
+}
